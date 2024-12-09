@@ -9,31 +9,24 @@
         case CONCAT;
         }
     
-    foreach($input as $line){
-     preg_match('/[0-9]+:/',$line, $matches);
-     preg_match('/[0-9]+/',$matches[0], $NumberOnly1);
-     $num1 = $NumberOnly1[0];
+    foreach($input as $lineIndex=>$line){
+        preg_match('/[0-9]+:/',$line, $matches);
+        preg_match('/[0-9]+/',$matches[0], $NumberOnly1);
+        $num1 = $NumberOnly1[0];
 
-     preg_match('/ .*/',$line, $matches);
-     preg_match('/[0-9].*/',$matches[0], $NumberOnly2);
-     $num2 = explode(" ", $NumberOnly2[0]);
-    
-     $subtractNum = 1;
-     $operatorsNumber = (count($num2) - 1);
-    
-    
-    $formattedNum2 = [];
-     foreach($num2 as $index=>$number){
-        array_push($formattedNum2,$number);
-        if($index < count($num2) - 1){
-        array_push($formattedNum2,Operator::ADD);
-        }
+        preg_match('/ .*/',$line, $matches);
+        preg_match('/[0-9].*/',$matches[0], $NumberOnly2);
+        $num2 = explode(" ", $NumberOnly2[0]);
+        
+        $formattedNum2 = [];
+        foreach($num2 as $index=>$number){
+            array_push($formattedNum2,$number);
+            if($index < count($num2) - 1){
+            array_push($formattedNum2,Operator::ADD);
+            }
      }
      
      $combinations = count($num2) == 2 ? 3 : pow(3,count($num2) - 1);
-     $combinationIndex = pow(count($num2) - 1, 2);
-     $bitLength = strlen(decbin($combinationIndex));
-
      do {
         $calculatedNumber = 0;
         foreach($formattedNum2 as $index=>$number){
@@ -83,7 +76,6 @@
             else {$adjusted = true;}
         } while(!$adjusted);
        
-        if($num1 == 190){ echo "Calculated $calculatedNumber Combinations $combinations\n";}
         if($calculatedNumber == $num1){
             $totalResult += $num1;
             $combinations = 1;
@@ -94,7 +86,6 @@
      if($calculatedNumber != $num1){
        
      }
-     echo "Line: $index\n";
+     echo "Line: $lineIndex\n";
     }
     var_dump($totalResult);
-
